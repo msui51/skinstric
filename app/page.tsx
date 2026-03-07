@@ -24,20 +24,15 @@ export default function Home() {
 
       <div className={styles.navLeft}>
         <div className={styles.decorativeBoxLeft} aria-hidden="true" />
-        <button className={styles.diamondBtnFilled} aria-label="Discover A.I.">
+        <button className={styles.diamondBtnOutlined} aria-label="Discover A.I.">
           <svg
-            width="10"
+            width="16"
             height="16"
-            viewBox="0 0 10 16"
-            fill="none"
+            viewBox="0 0 16 16"
+            fill="black"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              d="M8 2L3 8L8 14"
-              stroke="white"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
+            <polygon points="2,8 14,2 14,14" />
           </svg>
         </button>
         <span className={styles.navLabel}>DISCOVER A.I.</span>
@@ -48,18 +43,13 @@ export default function Home() {
         <span className={styles.navLabel}>TAKE TEST</span>
         <button className={styles.diamondBtnOutlined} aria-label="Take test">
           <svg
-            width="10"
+            width="16"
             height="16"
-            viewBox="0 0 10 16"
-            fill="none"
+            viewBox="0 0 16 16"
+            fill="black"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              d="M2 2L7 8L2 14"
-              stroke="black"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
+            <polygon points="14,8 2,2 2,14" />
           </svg>
         </button>
       </div>
