@@ -14,8 +14,6 @@ export default function Home() {
         <button className={styles.enterCodeBtn}>ENTER CODE</button>
       </header>
 
-      <div className={styles.decorativeBox} aria-hidden="true" />
-
       <main className={styles.main}>
         <h1 className={styles.heroText}>
           Sophisticated
@@ -25,6 +23,7 @@ export default function Home() {
       </main>
 
       <div className={styles.navLeft}>
+        <div className={styles.decorativeBoxLeft} aria-hidden="true" />
         <button className={styles.diamondBtnFilled} aria-label="Discover A.I.">
           <svg
             width="10"
@@ -45,6 +44,7 @@ export default function Home() {
       </div>
 
       <div className={styles.navRight}>
+        <div className={styles.decorativeBoxRight} aria-hidden="true" />
         <span className={styles.navLabel}>TAKE TEST</span>
         <button className={styles.diamondBtnOutlined} aria-label="Take test">
           <svg
