@@ -108,8 +108,13 @@
   line-height: 120px;
   text-align: center;
   color: #1a1a1a;
-}
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
+  .heroTextShift {
+    transform: translateX(400px);
+  }
+  
 /* ── Side navigation ── */
 
 .navLeft {
