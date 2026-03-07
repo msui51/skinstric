@@ -1,141 +1,255 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
+  position: relative;
+  width: 100%;
   min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  background: #ffffff;
+  overflow: hidden;
 }
+
+/* ── Header ── */
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  z-index: 10;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #000;
+}
+
+.introTag {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  color: #000;
+}
+
+.bracket {
+  font-weight: 300;
+}
+
+.enterCodeBtn {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  background: #000;
+  border: 1.5px solid #000;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.enterCodeBtn:hover {
+  background: transparent;
+  color: #000;
+}
+
+/* ── Decorative lines ── */
+
+.decorativeLines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decorativeLines line {
+  stroke: rgba(0, 0, 0, 0.1);
+  stroke-width: 1;
+  stroke-dasharray: 8 6;
+}
+
+/* ── Corner diamonds ── */
+
+.cornerDiamond {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  transform: rotate(45deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cornerTopLeft {
+  top: calc(12% - 5px);
+  left: calc(6% - 5px);
+}
+
+.cornerTopRight {
+  top: calc(12% - 5px);
+  right: calc(6% - 5px);
+}
+
+.cornerBottomLeft {
+  bottom: calc(12% - 5px);
+  left: calc(6% - 5px);
+}
+
+.cornerBottomRight {
+  bottom: calc(12% - 5px);
+  right: calc(6% - 5px);
+}
+
+/* ── Hero ── */
 
 .main {
   display: flex;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 5;
+}
+
+.heroText {
+  font-family: var(--font-noto-serif), "Times New Roman", serif;
+  font-size: clamp(52px, 8vw, 100px);
+  font-weight: 300;
+  line-height: 1.12;
+  text-align: center;
+  color: #1a1a1a;
+  letter-spacing: -1px;
+}
+
+/* ── Side navigation ── */
+
+.navLeft {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 10;
+}
+
+.navRight {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 10;
+}
+
+.navLabel {
+  font-size: 12px;
   font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #000;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+/* ── Diamond buttons ── */
+
+.diamondBtnFilled,
+.diamondBtnOutlined {
+  width: 40px;
+  height: 40px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  flex-shrink: 0;
+  transition: transform 0.2s;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.diamondBtnFilled {
+  background: #000;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+.diamondBtnOutlined {
+  background: #fff;
+  border: 1.5px solid #000;
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
+.diamondBtnFilled svg,
+.diamondBtnOutlined svg {
+  transform: rotate(-45deg);
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
+.diamondBtnFilled:hover,
+.diamondBtnOutlined:hover {
+  transform: rotate(45deg) scale(1.08);
+}
+
+/* ── Bottom text ── */
+
+.bottomText {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 2;
+  text-transform: uppercase;
+  color: #000;
+  z-index: 10;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .header {
+    padding: 16px 20px;
   }
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+  .heroText {
+    font-size: clamp(36px, 10vw, 52px);
+  }
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+  .navLeft {
+    left: 16px;
+    gap: 10px;
+  }
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  .navRight {
+    right: 16px;
+    gap: 10px;
+  }
+
+  .navLabel {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .diamondBtnFilled,
+  .diamondBtnOutlined {
+    width: 32px;
+    height: 32px;
+  }
+
+  .bottomText {
+    bottom: 20px;
+    left: 20px;
+    font-size: 8px;
   }
 }
