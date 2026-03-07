@@ -62,54 +62,18 @@
   color: #000;
 }
 
-/* ── Decorative lines ── */
+/* ── Decorative rotated box ── */
 
-.decorativeLines {
+.decorativeBox {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   pointer-events: none;
   z-index: 1;
-}
-
-.decorativeLines line {
-  stroke: rgba(0, 0, 0, 0.1);
-  stroke-width: 1;
-  stroke-dasharray: 8 6;
-}
-
-/* ── Corner diamonds ── */
-
-.cornerDiamond {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 1.5px solid rgba(0, 0, 0, 0.15);
-  transform: rotate(45deg);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.cornerTopLeft {
-  top: calc(12% - 5px);
-  left: calc(6% - 5px);
-}
-
-.cornerTopRight {
-  top: calc(12% - 5px);
-  right: calc(6% - 5px);
-}
-
-.cornerBottomLeft {
-  bottom: calc(12% - 5px);
-  left: calc(6% - 5px);
-}
-
-.cornerBottomRight {
-  bottom: calc(12% - 5px);
-  right: calc(6% - 5px);
 }
 
 /* ── Hero ── */

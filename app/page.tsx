@@ -14,29 +14,7 @@ export default function Home() {
         <button className={styles.enterCodeBtn}>ENTER CODE</button>
       </header>
 
-      <svg className={styles.decorativeLines} aria-hidden="true">
-        <line x1="6%" y1="12%" x2="44%" y2="48%" />
-        <line x1="94%" y1="12%" x2="56%" y2="48%" />
-        <line x1="6%" y1="88%" x2="44%" y2="52%" />
-        <line x1="94%" y1="88%" x2="56%" y2="52%" />
-      </svg>
-
-      <div
-        className={`${styles.cornerDiamond} ${styles.cornerTopLeft}`}
-        aria-hidden="true"
-      />
-      <div
-        className={`${styles.cornerDiamond} ${styles.cornerTopRight}`}
-        aria-hidden="true"
-      />
-      <div
-        className={`${styles.cornerDiamond} ${styles.cornerBottomLeft}`}
-        aria-hidden="true"
-      />
-      <div
-        className={`${styles.cornerDiamond} ${styles.cornerBottomRight}`}
-        aria-hidden="true"
-      />
+      <div className={styles.decorativeBox} aria-hidden="true" />
 
       <main className={styles.main}>
         <h1 className={styles.heroText}>
