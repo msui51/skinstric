@@ -2,9 +2,11 @@
 
 import styles from "./page.module.css";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [discoverAI, setDiscoverAI] = useState(false);
+  const router = useRouter();
   const handleDiscoverClick = () => setDiscoverAI(prev=> !prev);
   return (
     <div className={styles.page}>
@@ -57,7 +59,7 @@ export default function Home() {
         <div className={styles.navRight}>
           <div className={styles.decorativeBoxRight} aria-hidden="true" />
           <span className={styles.navLabel}>TAKE TEST</span>
-          <button className={styles.diamondBtnOutlined} aria-label="Take test">
+          <button className={styles.diamondBtnOutlined} onClick={() => router.push("/testing")} aria-label="Take test">
             <svg
               width="16"
               height="16"

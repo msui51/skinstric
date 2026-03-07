@@ -1,0 +1,267 @@
+.page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  z-index: 10;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #000;
+}
+
+.introTag {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  color: #000;
+}
+
+.bracket {
+  font-weight: 300;
+}
+
+/* ── Subtitle ── */
+
+.subtitle {
+  position: absolute;
+  top: 72px;
+  left: 32px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #000;
+  z-index: 10;
+}
+
+/* ── Main ── */
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 5;
+}
+
+/* ── Diamond container ── */
+
+.diamondContainer {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Three dashed rotating boxes ── */
+
+.dashedBox {
+  position: absolute;
+  border: 1.5px dashed rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.boxOuter {
+  width: 420px;
+  height: 420px;
+  animation: spinBox 60s linear infinite;
+  animation-delay: 0s;
+}
+
+.boxMiddle {
+  width: 340px;
+  height: 340px;
+  animation: spinBox 50s linear infinite;
+  animation-delay: 0s;
+  transform: rotate(15deg);
+}
+
+.boxInner {
+  width: 260px;
+  height: 260px;
+  animation: spinBox 40s linear infinite;
+  animation-delay: 0s;
+  transform: rotate(30deg);
+}
+
+@keyframes spinBox {
+  from {
+    transform: rotate(var(--start-angle, 0deg));
+  }
+  to {
+    transform: rotate(calc(var(--start-angle, 0deg) + 360deg));
+  }
+}
+
+.boxOuter {
+  --start-angle: 45deg;
+}
+
+.boxMiddle {
+  --start-angle: 30deg;
+}
+
+.boxInner {
+  --start-angle: 15deg;
+}
+
+/* ── Input area ── */
+
+.inputArea {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.clickLabel {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #999;
+}
+
+.nameInput {
+  font-family: var(--font-noto-serif), "Times New Roman", serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 300;
+  text-align: center;
+  color: #1a1a1a;
+  border: none;
+  border-bottom: 1.5px solid #000;
+  outline: none;
+  background: transparent;
+  padding: 4px 8px 8px;
+  width: 380px;
+  max-width: 80vw;
+}
+
+.nameInput::placeholder {
+  color: #1a1a1a;
+}
+
+/* ── Bottom nav ── */
+
+.navBottom {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  z-index: 10;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navLabel {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* ── Diamond button ── */
+
+.diamondBtnOutlined {
+  width: 40px;
+  height: 40px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1.5px solid #000;
+  background: #fff;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.diamondBtnOutlined svg {
+  transform: rotate(-45deg);
+}
+
+.diamondBtnOutlined:hover {
+  transform: rotate(45deg) scale(1.08);
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .header {
+    padding: 16px 20px;
+  }
+
+  .subtitle {
+    top: 56px;
+    left: 20px;
+  }
+
+  .diamondContainer {
+    width: 320px;
+    height: 320px;
+  }
+
+  .boxOuter {
+    width: 280px;
+    height: 280px;
+  }
+
+  .boxMiddle {
+    width: 220px;
+    height: 220px;
+  }
+
+  .boxInner {
+    width: 160px;
+    height: 160px;
+  }
+
+  .nameInput {
+    width: 240px;
+  }
+
+  .navBottom {
+    bottom: 20px;
+    left: 20px;
+  }
+
+  .diamondBtnOutlined {
+    width: 32px;
+    height: 32px;
+  }
+}
