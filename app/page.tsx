@@ -6,41 +6,40 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [discoverAI, setDiscoverAI] = useState(false);
+  const [takeTest, setTakeTest] = useState(false);
   const router = useRouter();
-  const handleDiscoverClick = () => setDiscoverAI(prev=> !prev);
+  
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <span className={styles.logo}>SKINSTRIC</span>
-          <span className={styles.introTag}>
-            <span className={styles.bracket}>[</span> INTRO{" "}
-            <span className={styles.bracket}>]</span>
-          </span>
-        </div>
-        <button className={styles.enterCodeBtn}>ENTER CODE</button>
-      </header>
-
       <main className={styles.main}>
-        <h1
-          className={
-            discoverAI
-              ? `${styles.heroText} ${styles.heroTextShift}`
-              : styles.heroText
-          }
-        >
-          Sophisticated
-          <br />
-          skincare
-        </h1>
+        {takeTest ? (
+          <>
+           
+            <h1 className={`${styles.heroText} ${styles.heroTextShiftLeft}`}>Sophisticated<br />skincare</h1>
+          </>
+        ) : (
+          <h1
+            className={
+              discoverAI
+                ? `${styles.heroText} ${styles.heroTextShiftRight}`
+                : styles.heroText
+            }
+          >
+            Sophisticated
+            <br />
+            skincare
+          </h1>
+        )}
       </main>
-
+      {!takeTest && (
       <div className={styles.navLeft}>
         <div className={styles.decorativeBoxLeft} aria-hidden="true" />
         <button
           className={styles.diamondBtnOutlined}
           aria-label="Discover A.I."
-          onClick={handleDiscoverClick}
+          onMouseOver={() => setDiscoverAI(true)}
+          onMouseOut={() => setDiscoverAI(false)}
+          onClick={()=>router.push('/testing')}
         >
           <svg
             width="16"
@@ -54,12 +53,16 @@ export default function Home() {
         </button>
         <span className={styles.navLabel}>DISCOVER A.I.</span>
       </div>
+      )}
 
       {!discoverAI && (
         <div className={styles.navRight}>
           <div className={styles.decorativeBoxRight} aria-hidden="true" />
           <span className={styles.navLabel}>TAKE TEST</span>
-          <button className={styles.diamondBtnOutlined} onClick={() => router.push("/testing")} aria-label="Take test">
+          <button className={styles.diamondBtnOutlined} 
+          onMouseOver={() => setTakeTest(true)}
+          onMouseOut={() => setTakeTest(false)}
+          onClick={() => router.push("/testing")} aria-label="Take test">
             <svg
               width="16"
               height="16"

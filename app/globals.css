@@ -49,10 +49,14 @@ body {
 body {
   color: var(--foreground);
   color: var(--foreground);
-  background: var(--background);
   font-family: 'Roobert', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+  overflow: hidden;
 }
 
 * {

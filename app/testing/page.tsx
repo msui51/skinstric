@@ -1,24 +1,52 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import styles from "./testing.module.css";
+import NavBottom from "@/components/NavBottom/NavBottom";
+import NavBottomRight from "@/components/NavBottomRight/NavBottomRight";
+import { useState } from "react";
 
 export default function Testing() {
-  const [name, setName] = useState("");
+     const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [step, setStep] = useState<"name" | "location" | "processing" | "success">("name");
+
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (step === "name") {
+      if (typeof name !== "string" || !name.trim()) {
+        console.error("Name must be a non-empty string.");
+        return;
+      }
+      setStep("location");
+    } else if (step === "location") {
+      if (typeof location !== "string" || !location.trim()) {
+        console.error("Location must be a non-empty string.");
+        return;
+      }
+      setStep("processing");
+      try {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const response = await fetch("https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, location }),
+        });
+        const result = await response.json();
+        console.log("Form submission result:", result);
+        setStep("success");
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setStep("location"); // allow retry
+      }
+    }
+  };
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <span className={styles.logo}>SKINSTRIC</span>
-          <span className={styles.introTag}>
-            <span className={styles.bracket}>[</span> INTRO{" "}
-            <span className={styles.bracket}>]</span>
-          </span>
-        </div>
-      </header>
-
       <p className={styles.subtitle}>TO START ANALYSIS</p>
 
       <main className={styles.main}>
@@ -27,40 +55,44 @@ export default function Testing() {
           <div className={`${styles.dashedBox} ${styles.boxMiddle}`} />
           <div className={`${styles.dashedBox} ${styles.boxInner}`} />
 
-          <div className={styles.inputArea}>
-            <span className={styles.clickLabel}>CLICK TO TYPE</span>
+          <form className={styles.inputArea} onSubmit={handleSubmit}>
+      {step === "success" ? (
+        <>
+          <p className={styles.successText}>Thank you!</p>
+          <p className={styles.successSubText}>Proceed for the next step</p>
+        </>
+      ) : step === "processing" ? (
+        <p className={styles.successSubText}>Processing submission</p>
+      ) : (
+        <>
+          <span className={styles.clickLabel}>CLICK TO TYPE</span>
+          {step === "name" ? (
             <input
               type="text"
               className={styles.nameInput}
-              placeholder="Introduce Yourself"
+              placeholder="Your Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </div>
+          ) : (
+            <input
+              type="text"
+              className={styles.nameInput}
+              placeholder="Your Location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+          )}
+        </>
+      )}
+    </form>
         </div>
       </main>
 
-      <div className={styles.navBottom}>
-        <Link href="/" className={styles.backLink}>
-          <span className={styles.diamondBtnOutlined}>
-            <svg
-              width="10"
-              height="16"
-              viewBox="0 0 10 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8 2L3 8L8 14"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </span>
-          <span className={styles.navLabel}>BACK</span>
-        </Link>
-      </div>
+      <NavBottom/>
+      {step === 'success' ?
+        <NavBottomRight/>
+        : null}
     </div>
   );
 }

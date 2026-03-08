@@ -6,44 +6,6 @@
   overflow: hidden;
 }
 
-/* ── Header ── */
-
-.header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 32px;
-  z-index: 10;
-}
-
-.headerLeft {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.logo {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #000;
-}
-
-.introTag {
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 1.5px;
-  color: #000;
-}
-
-.bracket {
-  font-weight: 300;
-}
-
 /* ── Subtitle ── */
 
 .subtitle {
@@ -96,16 +58,16 @@
 }
 
 .boxMiddle {
-  width: 340px;
-  height: 340px;
+  width: 410px;
+  height: 410px;
   animation: spinBox 50s linear infinite;
   animation-delay: 0s;
   transform: rotate(15deg);
 }
 
 .boxInner {
-  width: 260px;
-  height: 260px;
+  width: 400px;
+  height: 400px;
   animation: spinBox 40s linear infinite;
   animation-delay: 0s;
   transform: rotate(30deg);
@@ -133,7 +95,6 @@
 }
 
 /* ── Input area ── */
-
 .inputArea {
   position: relative;
   z-index: 5;
@@ -152,13 +113,12 @@
 }
 
 .nameInput {
-  font-family: var(--font-noto-serif), "Times New Roman", serif;
-  font-size: clamp(28px, 4vw, 40px);
+  font-size: 45px;
   font-weight: 300;
   text-align: center;
   color: #1a1a1a;
   border: none;
-  border-bottom: 1.5px solid #000;
+  border-bottom: 1.5px solid #999;
   outline: none;
   background: transparent;
   padding: 4px 8px 8px;
@@ -167,56 +127,17 @@
 }
 
 .nameInput::placeholder {
-  color: #1a1a1a;
+  color: #999999;
 }
 
-/* ── Bottom nav ── */
-
-.navBottom {
-  position: absolute;
-  bottom: 32px;
-  left: 32px;
-  z-index: 10;
+.successText {
+    font-size: 28px;
+    margin-bottom: 12px;
 }
 
-.backLink {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.navLabel {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #000;
-}
-
-/* ── Diamond button ── */
-
-.diamondBtnOutlined {
-  width: 40px;
-  height: 40px;
-  transform: rotate(45deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 1.5px solid #000;
-  background: #fff;
-  flex-shrink: 0;
-  transition: transform 0.2s;
-}
-
-.diamondBtnOutlined svg {
-  transform: rotate(-45deg);
-}
-
-.diamondBtnOutlined:hover {
-  transform: rotate(45deg) scale(1.08);
+.successSubText {
+    font-size: 18px;
+    color: #1a1a1ad6;
 }
 
 /* ── Responsive ── */
