@@ -4,6 +4,7 @@ import styles from "./testing.module.css";
 import NavBottom from "@/components/NavBottom/NavBottom";
 import NavBottomRight from "@/components/NavBottomRight/NavBottomRight";
 import { useState } from "react";
+import { BsThreeDots } from "react-icons/bs";
 
 export default function Testing() {
      const [name, setName] = useState("");
@@ -62,7 +63,10 @@ export default function Testing() {
           <p className={styles.successSubText}>Proceed for the next step</p>
         </>
       ) : step === "processing" ? (
-        <p className={styles.successSubText}>Processing submission</p>
+        <>
+          <p className={styles.successSubText}>Processing submission</p>
+          <BsThreeDots className={styles.loadingIcon} />
+        </>
       ) : (
         <>
           <span className={styles.clickLabel}>CLICK TO TYPE</span>

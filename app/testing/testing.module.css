@@ -140,6 +140,11 @@
     color: #1a1a1ad6;
 }
 
+.loadingIcon {
+    font-size: 50px;
+    color: #1a1a1ad6;
+}
+
 /* ── Responsive ── */
 
 @media (max-width: 768px) {
