@@ -29,7 +29,7 @@ export default function Testing() {
       setStep("processing");
       try {
         await new Promise(resolve => setTimeout(resolve, 2000));
-        const response = await fetch("https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne", {
+        const response = await fetch("/api/form-data", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

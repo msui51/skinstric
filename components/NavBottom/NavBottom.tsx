@@ -7,7 +7,7 @@ function NavBottom() {
   const router = useRouter();
 
   return (
-    <div className={styles.navBottom}  onClick={() => router.push("/")}>
+    <div className={styles.navBottom}  onClick={() => router.back()}>
         <button
           className={styles.diamondBtnOutlined}
           aria-label="Discover A.I."
