@@ -1,15 +1,20 @@
 "use client";
 import styles from './NavBottomRight.module.css';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 function NavBottomRight() {
     const router = useRouter();
+    const pathname = usePathname();
   return (
-    <div className={styles.navBottom}  onClick={() => router.push("/result")}>
+    <div className={styles.navBottom}>
+        {pathname === '/select' ? 
+          <span className={styles.navLabel}>GET SUMMARY</span> :
         <span className={styles.navLabel}>PROCEED</span>
+        }
         <button
           className={styles.diamondBtnOutlined}
-          aria-label="Discover A.I."
+          onClick={() => router.push(pathname === '/testing' ? "/result" : "/summary")}
         >
           <svg
             width="16"

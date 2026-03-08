@@ -7,6 +7,7 @@ function Select() {
     <div>
 
         <NavBottom />
+        <NavBottomRight />
     </div>
   )
 }
