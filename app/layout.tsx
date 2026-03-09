@@ -16,6 +16,7 @@ const notoSerif = Noto_Serif_Display({
   variable: "--font-noto-serif",
   subsets: ["latin"],
   weight: ["300"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {

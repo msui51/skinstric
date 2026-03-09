@@ -92,7 +92,7 @@
   grid-template-columns: 160px 1fr 280px;
   gap: 24px;
   padding: 24px 32px 100px;
-  align-items: start;
+  align-items: center;
 }
 
 /* ── Left sidebar ── */
@@ -145,6 +145,7 @@
   font-family: var(--font-noto-serif), "Times New Roman", serif;
   font-size: clamp(24px, 3vw, 36px);
   font-weight: 300;
+  font-style: italic;
   color: #1a1a1a;
   margin-bottom: 24px;
 }
@@ -264,6 +265,7 @@
   justify-content: space-between;
   padding: 20px 32px;
   background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   z-index: 20;
 }
 
