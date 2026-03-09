@@ -130,6 +130,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+  gap: 4px;
   position: relative;
   z-index: 5;
 }
