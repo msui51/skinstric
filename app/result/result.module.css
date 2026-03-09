@@ -100,7 +100,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  background-color: #edededc7;
+  gap: 8px;
 }
 
 .statCard {
@@ -108,12 +108,8 @@
   flex-direction: column;
   gap: 4px;
   padding: 14px 16px;
-  border-left: 3px solid #000;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.statCard:last-child {
-  border-bottom: none;
+  border-top: 3px solid #000;
+  background-color: #edededc7;
 }
 
 .statValue {
