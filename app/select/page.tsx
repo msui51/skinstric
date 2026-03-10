@@ -2,6 +2,7 @@
 import styles from './select.module.css';
 import NavBottom from "@/components/NavBottom/NavBottom";
 import NavBottomRight from "@/components/NavBottomRight/NavBottomRight";
+import { useRouter } from 'next/navigation';
 import { useState } from "react";
 
 function Select() {
@@ -9,6 +10,7 @@ function Select() {
   const [middle, setMiddle] = useState(false);
   const [inner, setInner] = useState(false);
   const [outerMost, setOuterMost] = useState(false);
+  const router = useRouter();
 
   return (
     <div className={styles.page}>
@@ -46,7 +48,8 @@ function Select() {
           <div className={styles.diamond}>
             <button className={`${styles.quadrant} ${styles.quadrantActive}`}
               onMouseOver={() => setInner(true)}
-            onMouseOut={() => setInner(false)}>
+            onMouseOut={() => setInner(false)}
+            onClick={()=>router.push('/summary')}>
               <span className={styles.quadrantLabel}>DEMOGRAPHICS</span>
             </button>
             <button className={styles.quadrant}

@@ -1,3 +1,9 @@
+.quadrant:nth-child(2),
+.quadrant:nth-child(3),
+.quadrant:nth-child(4) {
+  cursor: not-allowed;
+}
+
 .page {
   position: relative;
   width: 100%;
@@ -11,7 +17,7 @@
 .infoBlock {
   position: absolute;
   top: 72px;
-  left: 32px;
+  left: 20px;
   z-index: 10;
   margin-left: 12px;
 }
