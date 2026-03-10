@@ -1,3 +1,19 @@
+
+.chartArea,
+.tableArea {
+  border-top: 2px solid #000;
+}
+
+.tableRow:hover,
+.statCard:hover {
+  background: #f5f5f5;
+}
+
+.statCardActive:hover,
+.tableRowActive:hover {
+  background: #2a2a2a;
+}
+
 .page {
   position: relative;
   width: 100%;
@@ -6,6 +22,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 }
 
 .loading {
@@ -19,42 +36,17 @@
   color: #999;
 }
 
-/* ── Header ── */
-
-.header {
-  padding: 24px 32px;
-  display: flex;
-  align-items: center;
-}
-
-.headerLeft {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.logo {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #000;
-}
-
-.tag {
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 1.5px;
-  color: #000;
-}
-
-.bracket {
-  font-weight: 300;
-}
-
 /* ── Title block ── */
 
 .titleBlock {
-  padding: 0 32px;
+  padding-left: 12px;
+  padding-top: 20px;
+  padding-bottom: 24px;
+  position: absolute;
+  top: 72px;
+  left: 20px;
+  z-index: 10;
+  
 }
 
 .titleSmall {
@@ -68,8 +60,7 @@
 
 .titleLarge {
   font-size: clamp(32px, 5vw, 52px);
-  font-weight: 800;
-  letter-spacing: 2px;
+  font-weight: 500;
   text-transform: uppercase;
   color: #000;
   line-height: 1.1;
@@ -77,11 +68,11 @@
 }
 
 .titleSub {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #666;
+  color: #181818;
 }
 
 /* ── Content area ── */
@@ -89,10 +80,13 @@
 .content {
   flex: 1;
   display: grid;
-  grid-template-columns: 160px 1fr 280px;
+  grid-template-columns: 180px 1fr 360px;
   gap: 24px;
-  padding: 24px 32px 100px;
-  align-items: center;
+  position: absolute;
+  top: 250px;
+  left: 32px;
+  width: 100%;
+  padding-right: 70px;
 }
 
 /* ── Left sidebar ── */
@@ -100,56 +94,67 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .statCard {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 14px 16px;
-  border-top: 3px solid #000;
+  padding: 16px 16px 20px 16px;
   background-color: #edededc7;
+  color: #000;
+  border: none;
+  border-top: 2px solid #000;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.statCard:hover{
+  cursor: pointer;
+}
+
+.statCardActive {
+  background: #1a1a1a;
+  color: #fff;
 }
 
 .statValue {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #000;
+  margin-bottom: 6px;
 }
 
 .statLabel {
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #888;
 }
 
 /* ── Center chart ── */
 
 .chartArea {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 32px;
-  padding: 16px 0;
+  padding: 16px 16px;
   background-color: #edededc7;
 }
 
 .chartTitle {
-  font-family: var(--font-noto-serif), "Times New Roman", serif;
   font-size: clamp(24px, 3vw, 36px);
-  font-weight: 300;
+  font-weight: 500;
   color: #1a1a1a;
 }
 
 .donutWrapper {
   position: relative;
-  width: 260px;
-  height: 260px;
+  width: 380px;
+  height: 380px;
 }
 
 .donutSvg {
@@ -167,7 +172,7 @@
 }
 
 .donutValue {
-  font-size: 56px;
+  font-size: 46px;
   font-weight: 300;
   letter-spacing: -2px;
   color: #1a1a1a;
@@ -187,7 +192,6 @@
 .tableArea {
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(0, 0, 0, 0.08);
   background-color: #edededc7;
 }
 
@@ -195,12 +199,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
+  padding: 20px 16px;
+  font-size: 16px;
+  font-weight: 500;
   text-transform: uppercase;
-  color: #888;
+  color: #000;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -209,7 +212,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   color: #000;
   background: transparent;
@@ -226,17 +229,9 @@
   border-bottom: none;
 }
 
-.tableRow:hover {
-  background: #f5f5f5;
-}
-
 .tableRowActive {
   background: #1a1a1a;
   color: #fff;
-}
-
-.tableRowActive:hover {
-  background: #2a2a2a;
 }
 
 .tableRowLeft {

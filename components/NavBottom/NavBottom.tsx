@@ -3,8 +3,10 @@
 import styles from "./NavBottom.module.css";
 import { useRouter } from "next/navigation";
 
+
 function NavBottom() {
   const router = useRouter();
+
 
   return (
     <div className={styles.navBottom}  onClick={() => router.back()}>
