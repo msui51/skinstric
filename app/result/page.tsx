@@ -34,6 +34,7 @@ function Result() {
             if (!response.ok) {
                 throw new Error(result?.message ?? "Upload failed");
             }
+            sessionStorage.setItem("uploadData", JSON.stringify(result.data));
             router.push('/select');
                   console.log("Upload success:", result);
         } catch (error) {
