@@ -4,27 +4,20 @@
   min-height: 100vh;
   background: #ffffff;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  font-size: 14px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #999;
 }
 
 /* ── Header ── */
 
 .header {
-  padding: 24px 32px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  z-index: 10;
 }
 
 .headerLeft {
@@ -40,7 +33,7 @@
   color: #000;
 }
 
-.tag {
+.introTag {
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 1.5px;
@@ -51,347 +44,253 @@
   font-weight: 300;
 }
 
-/* ── Title block ── */
+/* ── Subtitle ── */
 
-.titleBlock {
-  padding: 0 32px;
-}
-
-.titleSmall {
-  font-size: 10px;
+.subtitle {
+  position: absolute;
+  top: 72px;
+  left: 32px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #000;
-  margin-bottom: 4px;
+  z-index: 10;
 }
 
-.titleLarge {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #000;
-  line-height: 1.1;
-  margin-bottom: 8px;
+/* ── Main ── */
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 60px;
+  position: relative;
+  z-index: 5;
 }
 
-.titleSub {
-  font-size: 10px;
+/* ── Diamond container ── */
+
+.diamondContainer {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease;
+}
+
+.diamondFaded {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* ── Dashed rotating boxes ── */
+
+.dashedBox {
+  position: absolute;
+  border: 1.5px dashed rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.boxOuter {
+  width: 340px;
+  height: 340px;
+  animation: spinBox 60s linear infinite;
+  --start-angle: 45deg;
+}
+
+.boxMiddle {
+  width: 270px;
+  height: 270px;
+  animation: spinBox 50s linear infinite;
+  --start-angle: 30deg;
+}
+
+.boxInner {
+  width: 200px;
+  height: 200px;
+  animation: spinBox 40s linear infinite;
+  --start-angle: 15deg;
+}
+
+@keyframes spinBox {
+  from {
+    transform: rotate(var(--start-angle, 0deg));
+  }
+  to {
+    transform: rotate(calc(var(--start-angle, 0deg) + 360deg));
+  }
+}
+
+/* ── Icon container ── */
+
+.iconContainer {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  width: 72px;
+  height: 72px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.icon:hover {
+  transform: scale(1.06);
+}
+
+.iconTitle,
+.iconGalleryTitle {
+  width: 160px;
+  height: auto;
+}
+
+/* ── Loading state ── */
+
+.inputArea {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.successSubText {
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #666;
 }
 
-/* ── Content area ── */
-
-.content {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 160px 1fr 280px;
-  gap: 24px;
-  padding: 24px 32px 100px;
-  align-items: center;
-}
-
-/* ── Left sidebar ── */
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.statCard {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 14px 16px;
-  border-top: 3px solid #000;
-  background-color: #edededc7;
-}
-
-.statValue {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.loadingIcon {
+  font-size: 24px;
   color: #000;
+  animation: pulse 1.2s ease-in-out infinite;
 }
 
-.statLabel {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #888;
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
-/* ── Center chart ── */
+/* ── Camera popup ── */
 
-.chartArea {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 16px 0;
-  background-color: #edededc7;
-}
-
-.chartTitle {
-  font-family: var(--font-noto-serif), "Times New Roman", serif;
-  font-size: clamp(24px, 3vw, 36px);
-  font-weight: 300;
-  color: #1a1a1a;
-}
-
-.donutWrapper {
-  position: relative;
-  width: 260px;
-  height: 260px;
-}
-
-.donutSvg {
-  width: 100%;
-  height: 100%;
-}
-
-.donutLabel {
+.cameraPopup {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: flex-start;
+  left: calc(50% + 40px);
+  transform: translateY(-50%);
+  z-index: 20;
+  animation: fadeIn 0.25s ease;
 }
 
-.donutValue {
-  font-size: 56px;
-  font-weight: 300;
-  letter-spacing: -2px;
-  color: #1a1a1a;
-  line-height: 1;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
 }
 
-.donutPercent {
-  font-size: 18px;
-  font-weight: 400;
-  color: #1a1a1a;
-  margin-top: 8px;
-  margin-left: 2px;
-}
-
-/* ── Right table ── */
-
-.tableArea {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background-color: #edededc7;
-}
-
-.tableHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #888;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.tableRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #000;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: background-color 0.15s;
-  text-align: left;
-  font-family: inherit;
-  width: 100%;
-}
-
-.tableRow:last-child {
-  border-bottom: none;
-}
-
-.tableRow:hover {
-  background: #f5f5f5;
-}
-
-.tableRowActive {
+.popupContent {
   background: #1a1a1a;
   color: #fff;
+  padding: 20px 24px;
+  min-width: 280px;
 }
 
-.tableRowActive:hover {
-  background: #2a2a2a;
-}
-
-.tableRowLeft {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.diamond {
-  font-size: 10px;
-  line-height: 1;
-}
-
-/* ── Bottom bar ── */
-
-.bottomBar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 32px;
-  background: #fff;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  z-index: 20;
-}
-
-.navLink {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.navLabel {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #000;
-}
-
-.diamondBtnOutlined {
-  width: 40px;
-  height: 40px;
-  transform: rotate(45deg);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid #000;
-  background: #fff;
-  flex-shrink: 0;
-  transition: transform 0.2s;
-}
-
-.diamondBtnOutlined svg {
-  transform: rotate(-45deg);
-}
-
-.diamondBtnOutlined:hover {
-  transform: rotate(45deg) scale(1.08);
-}
-
-.hintText {
-  font-size: 11px;
-  font-weight: 400;
-  font-style: italic;
-  color: #999;
-  letter-spacing: 0.3px;
-}
-
-.actions {
-  display: flex;
-  gap: 12px;
-}
-
-.btnOutline,
-.btnFilled {
-  font-family: inherit;
+.popupText {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  padding: 10px 24px;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  margin-bottom: 16px;
 }
 
-.btnOutline {
+.popupLine {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 14px;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.popupBtn {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
   background: transparent;
-  border: 1.5px solid #000;
-  color: #000;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
 }
 
-.btnOutline:hover {
-  background: #000;
+.popupBtn:hover {
   color: #fff;
 }
 
-.btnFilled {
-  background: #000;
-  border: 1.5px solid #000;
+.popupBtnBold {
+  font-weight: 700;
   color: #fff;
-}
-
-.btnFilled:hover {
-  background: #333;
 }
 
 /* ── Responsive ── */
 
 @media (max-width: 900px) {
-  .content {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 24px 20px 120px;
+  .main {
+    flex-direction: column;
+    gap: 40px;
   }
 
-  .sidebar {
-    flex-direction: row;
-    gap: 0;
+  .diamondContainer {
+    width: 300px;
+    height: 300px;
   }
 
-  .statCard {
-    flex: 1;
-    border-left: none;
-    border-top: 3px solid #000;
-    border-bottom: none;
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
+  .boxOuter {
+    width: 260px;
+    height: 260px;
   }
 
-  .statCard:last-child {
-    border-right: none;
+  .boxMiddle {
+    width: 200px;
+    height: 200px;
   }
 
-  .titleBlock {
-    padding: 0 20px;
+  .boxInner {
+    width: 150px;
+    height: 150px;
   }
 
-  .header {
-    padding: 16px 20px;
-  }
-
-  .bottomBar {
-    padding: 16px 20px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .hintText {
-    order: 3;
-    width: 100%;
-    text-align: center;
+  .cameraPopup {
+    left: 50%;
+    top: calc(50% + 80px);
+    transform: translate(-50%, 0);
   }
 }

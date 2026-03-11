@@ -1,189 +1,169 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
 import styles from "./result.module.css";
+import NavBottom from "@/components/NavBottom/NavBottom";
+import { useRef, useState, type ChangeEvent } from "react";
+import { BsThreeDots } from "react-icons/bs";
+import { useRouter } from "next/navigation";
 
-interface ConfidenceEntry {
-  label: string;
-  value: number;
-}
+function Result() {
+  const [stage, setStage] = useState<"null" | "uploading" | "success">("null");
+  const [showCameraPopup, setShowCameraPopup] = useState(false);
+  const router = useRouter();
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
-interface DemographicsData {
-  race: {
-    selected: string;
-    confidence: ConfidenceEntry[];
+  const handleGalleryClick = () => {
+    galleryInputRef.current?.click();
   };
-  age: string;
-  sex: string;
-}
 
-export default function Result() {
-  const [data, setData] = useState<DemographicsData | null>(null);
-  const [selectedRace, setSelectedRace] = useState<string>("");
+  const handleCameraClick = () => {
+    setShowCameraPopup(true);
+  };
 
-  useEffect(() => {
-    fetch("/api/demographics")
-      .then((res) => res.json())
-      .then((json: DemographicsData) => {
-        setData(json);
-        setSelectedRace(json.race.selected);
+  const handleCameraDeny = () => {
+    setShowCameraPopup(false);
+  };
+
+  const handleCameraAllow = () => {
+    setShowCameraPopup(false);
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      setStage("uploading");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
       });
-  }, []);
 
-  if (!data) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.loading}>Loading...</div>
-      </div>
-    );
-  }
+      const result = await response.json();
 
-  const topConfidence =
-    data.race.confidence.find((c) => c.label === selectedRace)?.value ?? 0;
-
-  const circumference = 2 * Math.PI * 120;
-  const offset = circumference * (1 - topConfidence / 100);
+      if (!response.ok) {
+        throw new Error(result?.message ?? "Upload failed");
+      }
+      sessionStorage.setItem("uploadData", JSON.stringify(result.data));
+      router.push("/select");
+      console.log("Upload success:", result);
+    } catch (error) {
+      console.error("Upload error:", error);
+    } finally {
+      e.target.value = "";
+    }
+  };
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <span className={styles.logo}>SKINSTRIC</span>
-          <span className={styles.tag}>
-            <span className={styles.bracket}>[</span> ANALYSIS{" "}
+          <span className={styles.introTag}>
+            <span className={styles.bracket}>[</span> INTRO{" "}
             <span className={styles.bracket}>]</span>
           </span>
         </div>
       </header>
 
-      <div className={styles.titleBlock}>
-        <p className={styles.titleSmall}>A. I. ANALYSIS</p>
-        <h1 className={styles.titleLarge}>DEMOGRAPHICS</h1>
-        <p className={styles.titleSub}>PREDICTED RACE &amp; AGE</p>
-      </div>
+      <p className={styles.subtitle}>TO START ANALYSIS</p>
 
-      <div className={styles.content}>
-        {/* Left sidebar */}
-        <aside className={styles.sidebar}>
-          <div className={styles.statCard}>
-            <span className={styles.statValue}>
-              {selectedRace.toUpperCase()}
-            </span>
-            <span className={styles.statLabel}>RACE</span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statValue}>{data.age}</span>
-            <span className={styles.statLabel}>AGE</span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statValue}>
-              {data.sex.toUpperCase()}
-            </span>
-            <span className={styles.statLabel}>SEX</span>
-          </div>
-        </aside>
-
-        {/* Center chart */}
-        <div className={styles.chartArea}>
-          <p className={styles.chartTitle}>
-            {selectedRace.charAt(0).toUpperCase() +
-              selectedRace.slice(1).toLowerCase()}
-          </p>
-          <div className={styles.donutWrapper}>
-            <svg
-              className={styles.donutSvg}
-              viewBox="0 0 260 260"
-              fill="none"
-            >
-              <circle
-                cx="130"
-                cy="130"
-                r="120"
-                stroke="rgba(0,0,0,0.08)"
-                strokeWidth="2"
-              />
-              <circle
-                cx="130"
-                cy="130"
-                r="120"
-                stroke="#000"
-                strokeWidth="2.5"
-                strokeDasharray={circumference}
-                strokeDashoffset={offset}
-                strokeLinecap="round"
-                transform="rotate(-90 130 130)"
-              />
-            </svg>
-            <div className={styles.donutLabel}>
-              <span className={styles.donutValue}>{topConfidence}</span>
-              <span className={styles.donutPercent}>%</span>
+      <main className={styles.main}>
+        {stage === "uploading" ? (
+          <div className={styles.diamondContainer}>
+            <div className={`${styles.dashedBox} ${styles.boxOuter}`} />
+            <div className={`${styles.dashedBox} ${styles.boxMiddle}`} />
+            <div className={`${styles.dashedBox} ${styles.boxInner}`} />
+            <div className={styles.inputArea}>
+              <p className={styles.successSubText}>Processing submission</p>
+              <BsThreeDots className={styles.loadingIcon} />
             </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className={styles.diamondContainer}>
+              <div className={`${styles.dashedBox} ${styles.boxOuter}`} />
+              <div className={`${styles.dashedBox} ${styles.boxMiddle}`} />
+              <div className={`${styles.dashedBox} ${styles.boxInner}`} />
+              <div className={styles.iconContainer}>
+                <img
+                  className={styles.icon}
+                  src="/icons/camera-icon.svg"
+                  alt="Camera"
+                  onClick={handleCameraClick}
+                />
+                <img
+                  className={styles.iconTitle}
+                  src="/icons/camera-title.svg"
+                  alt="Allow A.I. to scan your face"
+                />
+              </div>
 
-        {/* Right table */}
-        <aside className={styles.tableArea}>
-          <div className={styles.tableHeader}>
-            <span>RACE</span>
-            <span>A. I. CONFIDENCE</span>
-          </div>
-          {data.race.confidence.map((entry) => (
-            <button
-              key={entry.label}
-              className={`${styles.tableRow} ${
-                entry.label === selectedRace ? styles.tableRowActive : ""
+              {showCameraPopup && (
+                <div className={styles.cameraPopup}>
+                  <div className={styles.popupContent}>
+                    <p className={styles.popupText}>
+                      ALLOW A.I. TO ACCESS YOUR CAMERA
+                    </p>
+                    <div className={styles.popupLine} />
+                    <div className={styles.popupActions}>
+                      <button
+                        className={styles.popupBtn}
+                        onClick={handleCameraDeny}
+                      >
+                        DENY
+                      </button>
+                      <button
+                        className={`${styles.popupBtn} ${styles.popupBtnBold}`}
+                        onClick={handleCameraAllow}
+                      >
+                        ALLOW
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div
+              className={`${styles.diamondContainer} ${
+                showCameraPopup ? styles.diamondFaded : ""
               }`}
-              onClick={() => setSelectedRace(entry.label)}
             >
-              <span className={styles.tableRowLeft}>
-                <span className={styles.diamond}>
-                  {entry.label === selectedRace ? "◆" : "◇"}
-                </span>
-                <span>{entry.label}</span>
-              </span>
-              <span>{entry.value} %</span>
-            </button>
-          ))}
-        </aside>
-      </div>
-
-      {/* Bottom bar */}
-      <div className={styles.bottomBar}>
-        <Link href="/select" className={styles.navLink}>
-          <span className={styles.diamondBtnOutlined}>
-            <svg
-              width="10"
-              height="16"
-              viewBox="0 0 10 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8 2L3 8L8 14"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </span>
-          <span className={styles.navLabel}>BACK</span>
-        </Link>
-
-        <p className={styles.hintText}>
-          If A.I. estimate is wrong, select the correct one.
-        </p>
-
-        <div className={styles.actions}>
-          <button
-            className={styles.btnOutline}
-            onClick={() => setSelectedRace(data.race.selected)}
-          >
-            RESET
-          </button>
-          <button className={styles.btnFilled}>CONFIRM</button>
-        </div>
-      </div>
+              <div className={`${styles.dashedBox} ${styles.boxOuter}`} />
+              <div className={`${styles.dashedBox} ${styles.boxMiddle}`} />
+              <div className={`${styles.dashedBox} ${styles.boxInner}`} />
+              <div className={styles.iconContainer}>
+                <img
+                  className={styles.icon}
+                  src="/icons/gallery-icon.svg"
+                  alt="Gallery"
+                  onClick={handleGalleryClick}
+                />
+                <img
+                  className={styles.iconGalleryTitle}
+                  src="/icons/gallery-title.svg"
+                  alt="Allow A.I. access gallery"
+                />
+                <input
+                  type="file"
+                  ref={galleryInputRef}
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+          </>
+        )}
+      </main>
+      <NavBottom />
     </div>
   );
 }
+
+export default Result;
