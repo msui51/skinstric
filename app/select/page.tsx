@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./select.module.css";
 
 export default function Select() {
+  const router = useRouter();
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -39,7 +44,10 @@ export default function Select() {
           />
 
           <div className={styles.diamond}>
-            <button className={`${styles.quadrant} ${styles.quadrantActive}`}>
+            <button
+              className={`${styles.quadrant} ${styles.quadrantActive}`}
+              onClick={() => router.push("/summary")}
+            >
               <span className={styles.quadrantLabel}>DEMOGRAPHICS</span>
             </button>
             <button className={styles.quadrant}>
@@ -64,7 +72,7 @@ export default function Select() {
       </main>
 
       <div className={styles.navBottom}>
-        <Link href="/testing" className={styles.navLink}>
+        <Link href="/result" className={styles.navLink}>
           <span className={styles.diamondBtnOutlined}>
             <svg
               width="10"
@@ -84,7 +92,7 @@ export default function Select() {
           <span className={styles.navLabel}>BACK</span>
         </Link>
 
-        <Link href="#" className={styles.navLink}>
+        <Link href="/summary" className={styles.navLink}>
           <span className={styles.navLabel}>GET SUMMARY</span>
           <span className={styles.diamondBtnFilled}>
             <svg

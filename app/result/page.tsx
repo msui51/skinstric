@@ -26,6 +26,7 @@ function Result() {
 
   const handleCameraAllow = () => {
     setShowCameraPopup(false);
+    router.push("/camera");
   };
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
