@@ -6,6 +6,27 @@ import { useRef, useState, type ChangeEvent } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
 
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+        return;
+      }
+
+      reject(new Error('Failed to convert file to Base64'));
+    };
+
+    reader.onerror = () => {
+      reject(reader.error ?? new Error('Failed to read selected file'));
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
 function Result() {
     const [stage, setStage] = useState<'null' | 'uploading' | 'success'>('null');
     const [showCameraPopUp, setShowCameraPopUp] = useState(false);
@@ -23,6 +44,11 @@ function Result() {
     setShowCameraPopUp(false);
   };
 
+  const handleCameraAllow = () => {
+    setShowCameraPopUp(false);
+    router.push('/camera');
+  };
+
      const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -32,6 +58,10 @@ function Result() {
 
         try {
             setStage('uploading');
+        const base64Image = await readFileAsDataUrl(file);
+          sessionStorage.setItem('galleryAnalysisImage', base64Image);
+          sessionStorage.setItem('analysisSource', 'gallery');
+        sessionStorage.removeItem('uploadData');
             await new Promise(resolve => setTimeout(resolve, 2000));
             const response = await fetch("/api/upload", {
                 method: "POST",
@@ -48,6 +78,7 @@ function Result() {
                   console.log("Upload success:", result);
         } catch (error) {
             console.error("Upload error:", error);
+          setStage('null');
         } finally {
             e.target.value = "";
         }
@@ -96,7 +127,7 @@ function Result() {
                       </button>
                       <button
                         className={`${styles.popupBtn} ${styles.popupBtnBold}`}
-                        onClick={() => router.push('/camera')}
+                        onClick={handleCameraAllow}
                       >
                         ALLOW
                       </button>

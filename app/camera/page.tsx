@@ -1,8 +1,42 @@
+"use client";
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './camera.module.css';
 
 
 function Camera() {
-    
+    const router = useRouter();
+
+    useEffect(() => {
+      let mounted = true;
+
+      const setupCamera = async () => {
+        try {
+          const mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'user', width: 1280, height: 720 },
+          });
+
+          mediaStream.getTracks().forEach((track) => track.stop());
+
+          if (mounted) {
+            router.replace('/camera/capture');
+          }
+        } catch (error) {
+          console.error('Camera setup error:', error);
+          if (mounted) {
+            router.replace('/result');
+          }
+        }
+      };
+
+      void setupCamera();
+
+      return () => {
+        mounted = false;
+      };
+    }, [router]);
+
   return (
     <div className={styles.page}>
         <div className={styles.main}>
