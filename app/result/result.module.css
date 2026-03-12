@@ -42,6 +42,11 @@
   justify-content: center;
 }
 
+.diamondFaded {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
 /* ── Three dashed rotating boxes ── */
 
 .dashedBox {
@@ -144,4 +149,86 @@
 .loadingIcon {
     font-size: 50px;
     color: #1a1a1ad6;
+}
+
+/* ── Camera popup ── */
+
+.cameraPopup {
+  position: absolute;
+  top: 55%;
+  left: calc(50% + 120px);
+  transform: translateY(-50%);
+  z-index: 20;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.popupContent {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 20px 0;
+  width: 380px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.popupText {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.popupLine {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 2px;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.popupBtn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding-right: 24px;
+  transition: color 0.2s;
+}
+
+.popupBtn:first-child:hover {
+  color: rgba(160, 160, 160, 0.5);
+}
+
+.popupBtnBold {
+  font-weight: 700;
+  color: #fff;
+}
+
+.popupBtnBold:hover {
+  color: #bababa;
 }

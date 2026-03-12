@@ -8,11 +8,20 @@ import { useRouter } from 'next/navigation';
 
 function Result() {
     const [stage, setStage] = useState<'null' | 'uploading' | 'success'>('null');
+    const [showCameraPopUp, setShowCameraPopUp] = useState(false);
     const router = useRouter();
     const galleryInputRef = useRef<HTMLInputElement>(null);
     const handleGalleryClick = () => {
         galleryInputRef.current?.click();
     }
+
+      const handleCameraClick = () => {
+    setShowCameraPopUp(true);
+  };
+
+  const handleCameraDeny = () => {
+    setShowCameraPopUp(false);
+  };
 
      const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -67,12 +76,37 @@ function Result() {
                     <div className={styles.iconContainer}>
                         <img className={styles.icon}
                             src='/icons/camera-icon.svg'
+                            onClick={handleCameraClick}
                         />
                         <img className={styles.iconTitle} src='/icons/camera-title.svg'/>
                     </div>
-            
+                     {showCameraPopUp && (
+                <div className={styles.cameraPopup}>
+                  <div className={styles.popupContent}>
+                    <p className={styles.popupText}>
+                      ALLOW A.I. TO ACCESS YOUR CAMERA
+                    </p>
+                    <div className={styles.popupLine} />
+                    <div className={styles.popupActions}>
+                      <button
+                        className={styles.popupBtn}
+                        onClick={handleCameraDeny}
+                      >
+                        DENY
+                      </button>
+                      <button
+                        className={`${styles.popupBtn} ${styles.popupBtnBold}`}
+                        onClick={() => router.push('/camera')}
+                      >
+                        ALLOW
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.diamondContainer}>
+              )}
+                </div>
+                <div  className={`${styles.diamondContainer} 
+                    ${showCameraPopUp ? styles.diamondFaded : ""}`}>
                     <div className={`${styles.dashedBox} ${styles.boxOuter}`} />
                     <div className={`${styles.dashedBox} ${styles.boxMiddle}`} />
                     <div className={`${styles.dashedBox} ${styles.boxInner}`} />
