@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./summary.module.css";
+import { useRouter } from "next/navigation";
+import NavBottom from "@/components/NavBottom/NavBottom";
 
 interface ConfidenceEntry {
   label: string;
@@ -105,6 +107,7 @@ function getSavedAnalysisImage(): string | null {
 }
 
 export default function Summary() {
+  const router = useRouter();
   const [data, setData] = useState<DemographicsData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -360,7 +363,6 @@ export default function Summary() {
           </span>
           <span className={styles.navLabel}>BACK</span>
         </Link>
-
         <p className={styles.hintText}>
           If A.I. estimate is wrong, select the correct one.
         </p>
@@ -377,7 +379,7 @@ export default function Summary() {
           >
             RESET
           </button>
-          <button className={styles.btnFilled}>CONFIRM</button>
+          <button className={styles.btnFilled} onClick={() => {router.push('/')}}>CONFIRM</button>
         </div>
       </div>
     </div>
