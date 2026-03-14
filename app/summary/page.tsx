@@ -22,6 +22,12 @@ interface DemographicsData {
   sex: MetricData;
 }
 
+interface RawDemographics {
+  race: Record<string, number>;
+  age: Record<string, number>;
+  gender: Record<string, number>;
+}
+
 function getTopEntry(values: Record<string, number>): string {
   return Object.entries(values).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
 }
@@ -51,8 +57,57 @@ function getMetricLabel(metric: MetricKey): string {
   return metric.toUpperCase();
 }
 
+function toDemographicsData(parsed: RawDemographics): DemographicsData {
+  const topRace = getTopEntry(parsed.race);
+  const topAge = getTopEntry(parsed.age);
+  const topGender = getTopEntry(parsed.gender);
+
+  return {
+    race: { selected: topRace, confidence: toConfidenceEntries(parsed.race) },
+    age: { selected: topAge, confidence: toConfidenceEntries(parsed.age) },
+    sex: { selected: topGender, confidence: toConfidenceEntries(parsed.gender) },
+  };
+}
+
+function dataUrlToFile(dataUrl: string, fileName: string): File | null {
+  const match = dataUrl.match(/^data:(.*?);base64,(.*)$/);
+  if (!match) {
+    return null;
+  }
+
+  const mime = match[1] || "image/jpeg";
+  const base64 = match[2];
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+
+  return new File([bytes], fileName, { type: mime });
+}
+
+function getSavedAnalysisImage(): string | null {
+  const analysisSource = sessionStorage.getItem("analysisSource");
+
+  if (analysisSource === "gallery") {
+    return sessionStorage.getItem("galleryAnalysisImage");
+  }
+
+  if (analysisSource === "camera") {
+    return sessionStorage.getItem("cameraAnalysisImage");
+  }
+
+  return (
+    sessionStorage.getItem("galleryAnalysisImage") ??
+    sessionStorage.getItem("cameraAnalysisImage")
+  );
+}
+
 export default function Summary() {
   const [data, setData] = useState<DemographicsData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [activeMetric, setActiveMetric] = useState<MetricKey>("race");
   const [selectedValues, setSelectedValues] = useState<Record<MetricKey, string>>({
     race: "",
@@ -61,32 +116,98 @@ export default function Summary() {
   });
 
   useEffect(() => {
-    const raw = sessionStorage.getItem("uploadData");
-    if (!raw) return;
+    let mounted = true;
 
-    const parsed = JSON.parse(raw) as {
-      race: Record<string, number>;
-      age: Record<string, number>;
-      gender: Record<string, number>;
+    const setDemographics = (parsed: RawDemographics) => {
+      const demographics = toDemographicsData(parsed);
+      setData(demographics);
+      setSelectedValues({
+        race: demographics.race.selected,
+        age: demographics.age.selected,
+        sex: demographics.sex.selected,
+      });
     };
 
-    const topRace = getTopEntry(parsed.race);
-    const topAge = getTopEntry(parsed.age);
-    const topGender = getTopEntry(parsed.gender);
+    const loadDemographics = async () => {
+      try {
+        const savedUpload = sessionStorage.getItem("uploadData");
+        if (savedUpload) {
+          const parsed = JSON.parse(savedUpload) as RawDemographics;
+          if (mounted) {
+            setDemographics(parsed);
+          }
+          return;
+        }
 
-    const json: DemographicsData = {
-      race: { selected: topRace, confidence: toConfidenceEntries(parsed.race) },
-      age: { selected: topAge, confidence: toConfidenceEntries(parsed.age) },
-      sex: { selected: topGender, confidence: toConfidenceEntries(parsed.gender) },
+        const savedAnalysisImage = getSavedAnalysisImage();
+
+        if (!savedAnalysisImage) {
+          if (mounted) {
+            setLoadError("No analysis image found.");
+          }
+          return;
+        }
+
+        const file = dataUrlToFile(savedAnalysisImage, "analysis-image.jpg");
+        if (!file) {
+          if (mounted) {
+            setLoadError("Saved image is invalid.");
+          }
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result?.data) {
+          throw new Error(result?.message ?? "Failed to analyze captured image");
+        }
+
+        sessionStorage.setItem("uploadData", JSON.stringify(result.data));
+
+        if (mounted) {
+          setDemographics(result.data as RawDemographics);
+        }
+      } catch (error) {
+        if (mounted) {
+          setLoadError(error instanceof Error ? error.message : "Failed to load demographics");
+        }
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
+      }
     };
 
-    setData(json);
-    setSelectedValues({
-      race: json.race.selected,
-      age: json.age.selected,
-      sex: json.sex.selected,
-    });
+    void loadDemographics();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.loading}>Loading...</div>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.loading}>{loadError}</div>
+      </div>
+    );
+  }
 
   if (!data) {
     return (

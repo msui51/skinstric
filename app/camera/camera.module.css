@@ -1,0 +1,149 @@
+.page {
+  /* position: relative; */
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Main ── */
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: auto 0;
+  min-height: 0;
+  /* position: relative; */
+  z-index: 5;
+}
+
+/* ── Diamond container ── */
+
+.diamondContainer {
+  /* position: relative; */
+  width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diamondFaded {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* ── Three dashed rotating boxes ── */
+
+.dashedBox {
+  position: absolute;
+  border: 1.5px dashed rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.boxOuter {
+  width: 300px;
+  height: 300px;
+  animation: spinBox 60s linear infinite;
+  animation-delay: 0s;
+}
+
+.boxMiddle {
+  width: 290px;
+  height: 290px;
+  animation: spinBox 50s linear infinite;
+  animation-delay: 0s;
+  transform: rotate(15deg);
+}
+
+.boxInner {
+  width: 280px;
+  height: 280px;
+  animation: spinBox 40s linear infinite;
+  animation-delay: 0s;
+  transform: rotate(30deg);
+}
+
+@keyframes spinBox {
+  from {
+    transform: rotate(var(--start-angle, 0deg));
+  }
+  to {
+    transform: rotate(calc(var(--start-angle, 0deg) + 360deg));
+  }
+}
+
+.boxOuter {
+  --start-angle: 45deg;
+}
+
+.boxMiddle {
+  --start-angle: 30deg;
+}
+
+.boxInner {
+  --start-angle: 15deg;
+}
+
+/* ── Icon ── */
+
+.iconContainer {
+     /* position: relative; */
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon {
+  /* position: relative; */
+    transition: transform 0.3s ease-in-out;
+}
+
+.icon:hover {
+    cursor: pointer;
+   transform: scale(1.05);
+}
+
+
+.settingText {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.footer {
+  padding: 32px;
+  transform: translateY(-100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.tipsTitle {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.tipsList {
+  display: flex;
+  gap: 32px;
+}
+
+.tip {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #000;
+}

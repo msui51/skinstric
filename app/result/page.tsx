@@ -6,13 +6,48 @@ import { useRef, useState, type ChangeEvent } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
 
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+        return;
+      }
+
+      reject(new Error('Failed to convert file to Base64'));
+    };
+
+    reader.onerror = () => {
+      reject(reader.error ?? new Error('Failed to read selected file'));
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
 function Result() {
     const [stage, setStage] = useState<'null' | 'uploading' | 'success'>('null');
+    const [showCameraPopUp, setShowCameraPopUp] = useState(false);
     const router = useRouter();
     const galleryInputRef = useRef<HTMLInputElement>(null);
     const handleGalleryClick = () => {
         galleryInputRef.current?.click();
     }
+
+      const handleCameraClick = () => {
+    setShowCameraPopUp(true);
+  };
+
+  const handleCameraDeny = () => {
+    setShowCameraPopUp(false);
+  };
+
+  const handleCameraAllow = () => {
+    setShowCameraPopUp(false);
+    router.push('/camera');
+  };
 
      const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -23,6 +58,10 @@ function Result() {
 
         try {
             setStage('uploading');
+        const base64Image = await readFileAsDataUrl(file);
+          sessionStorage.setItem('galleryAnalysisImage', base64Image);
+          sessionStorage.setItem('analysisSource', 'gallery');
+        sessionStorage.removeItem('uploadData');
             await new Promise(resolve => setTimeout(resolve, 2000));
             const response = await fetch("/api/upload", {
                 method: "POST",
@@ -39,6 +78,7 @@ function Result() {
                   console.log("Upload success:", result);
         } catch (error) {
             console.error("Upload error:", error);
+          setStage('null');
         } finally {
             e.target.value = "";
         }
@@ -67,12 +107,37 @@ function Result() {
                     <div className={styles.iconContainer}>
                         <img className={styles.icon}
                             src='/icons/camera-icon.svg'
+                            onClick={handleCameraClick}
                         />
                         <img className={styles.iconTitle} src='/icons/camera-title.svg'/>
                     </div>
-            
+                     {showCameraPopUp && (
+                <div className={styles.cameraPopup}>
+                  <div className={styles.popupContent}>
+                    <p className={styles.popupText}>
+                      ALLOW A.I. TO ACCESS YOUR CAMERA
+                    </p>
+                    <div className={styles.popupLine} />
+                    <div className={styles.popupActions}>
+                      <button
+                        className={styles.popupBtn}
+                        onClick={handleCameraDeny}
+                      >
+                        DENY
+                      </button>
+                      <button
+                        className={`${styles.popupBtn} ${styles.popupBtnBold}`}
+                        onClick={handleCameraAllow}
+                      >
+                        ALLOW
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.diamondContainer}>
+              )}
+                </div>
+                <div  className={`${styles.diamondContainer} 
+                    ${showCameraPopUp ? styles.diamondFaded : ""}`}>
                     <div className={`${styles.dashedBox} ${styles.boxOuter}`} />
                     <div className={`${styles.dashedBox} ${styles.boxMiddle}`} />
                     <div className={`${styles.dashedBox} ${styles.boxInner}`} />
