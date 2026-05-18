@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skinsctric
 
-## Getting Started
+Skinsctric is a skincare-focused web application that presents an AI-powered personalized skincare experience. The app introduces users to the product concept, encourages them to discover the AI experience, and guides them into an interactive testing flow.
 
-First, run the development server:
+## What I built
+
+I built a frontend web app for a skincare brand experience called **Skinsctric**.
+
+The application currently includes:
+
+- A polished landing page with branded messaging
+- Interactive CTA flows for **Discover A.I.** and **Take Test**
+- Client-side navigation into a `/testing` experience
+- A responsive, modern UI built with reusable frontend structure
+- Styling focused on a premium skincare/product aesthetic
+
+From the homepage messaging and interaction design, the product is positioned as an AI-driven skincare routine generator that creates highly personalized recommendations based on a user's skin needs.
+
+## Tech stack
+
+### Core technologies
+
+- **Next.js 16** — React framework used to build the application
+- **React 19** — component-based UI library powering the frontend
+- **TypeScript** — primary language used for application logic and components
+
+### Styling and UI
+
+- **CSS Modules** — component-scoped styling for the app UI
+- **CSS** — custom styling for layout, branding, and interaction states
+- **react-icons** — icon library dependency for UI enhancements
+
+### Tooling
+
+- **npm** — package manager used in the project
+- **ESLint 9** — linting and code quality checks
+- **eslint-config-next** — Next.js linting configuration
+
+## Project structure
+
+Key folders and files include:
+
+- `app/` — App Router pages and route-level UI
+- `components/` — reusable UI components
+- `public/` — static assets
+- `app/page.tsx` — homepage implementation
+- `package.json` — scripts and dependency definitions
+
+## Available scripts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm start
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Install dependencies:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+```
 
-## Learn More
+2. Start the development server:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Open the app in your browser at `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Language composition
 
-## Deploy on Vercel
+Repository language breakdown:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **TypeScript:** 57.7%
+- **CSS:** 41.6%
+- **JavaScript:** 0.7%
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+
+- Built with the **Next.js App Router** architecture
+- Uses client-side interactivity with React hooks like `useState`
+- Uses Next.js navigation via `useRouter`
+- No database or external backend service is currently required
+- No environment variables are currently needed
+- No automated test suite is configured yet
